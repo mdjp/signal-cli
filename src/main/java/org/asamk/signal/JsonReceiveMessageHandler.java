@@ -54,8 +54,7 @@ public class JsonReceiveMessageHandler implements Manager.ReceiveMessageHandler 
 
 	    try
         {
-                System.out.println("yo");
-        url = new URL("http://51.195.137.121:9183/inbound");
+        url = new URL("http://51.195.137.121:9183/inboundsignal/" + this.m.getUsername().replace("+", ""));
         con = url.openConnection();
         http = (HttpURLConnection)con;
         http.setRequestMethod("POST");

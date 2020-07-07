@@ -103,6 +103,11 @@ public class Main {
                 dataPath = getDefaultDataPath();
             }
 
+	    String gateway = ns.getString("gateway");
+            if (isEmpty(gateway)) {
+                gateway = "notset";
+            }
+
             final SignalServiceConfiguration serviceConfiguration = ServiceConfig.createDefaultServiceConfiguration(BaseConfig.USER_AGENT);
 
             if (username == null) {
@@ -230,6 +235,8 @@ public class Main {
                 .action(Arguments.version());
         parser.addArgument("--config")
                 .help("Set the path, where to store the config (Default: $XDG_DATA_HOME/signal-cli , $HOME/.local/share/signal-cli).");
+        parser.addArgument("-g","--gateway")
+                .help("Set the gateway");
 
         MutuallyExclusiveGroup mut = parser.addMutuallyExclusiveGroup();
         mut.addArgument("-u", "--username")
