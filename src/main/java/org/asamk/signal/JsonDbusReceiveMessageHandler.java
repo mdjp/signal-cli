@@ -124,17 +124,28 @@ public class JsonDbusReceiveMessageHandler extends JsonReceiveMessageHandler {
         URL url;
         URLConnection con;
         HttpURLConnection http;
-        String resultString = "hello";
-        url = new URL("http://51.195.137.121:9183/inboundsignaltesting/" + this.m.getUsername().replace("+", ""));
-        con = url.openConnection();
-        http = (HttpURLConnection)con;
-        http.setRequestMethod("POST");
-        http.setDoOutput(true);
-        byte[] out = resultString.getBytes(StandardCharsets.UTF_8);
-        int length = out.length;
-        http.setFixedLengthStreamingMode(length);
-        http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        http.connect();
+        String resultString;
+        resultString= "hello";
+
+        try
+        {
+            url = new URL("http://51.195.137.121:9183/inboundsignaltest/" + this.m.getUsername().replace("+", ""));
+            con = url.openConnection();
+            http = (HttpURLConnection)con;
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);
+            byte[] out = resultString.getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+            http.setFixedLengthStreamingMode(length);
+            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            http.connect();
+
+            try(OutputStream os = http.getOutputStream()) {
+                os.write(out);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         sendReceivedMessageToDbus(envelope, content, conn, objectPath, m);
     }
 }
