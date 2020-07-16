@@ -106,7 +106,6 @@ public class JsonDbusReceiveMessageHandler extends JsonReceiveMessageHandler {
             }
         }
     }
-JsonMessageEnvelope
     static private List<String> getAttachments(SignalServiceDataMessage message, Manager m) {
         List<String> attachments = new ArrayList<>();
         if (message.getAttachments().isPresent()) {
