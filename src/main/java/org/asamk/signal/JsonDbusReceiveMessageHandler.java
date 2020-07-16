@@ -117,7 +117,7 @@ public class JsonDbusReceiveMessageHandler extends JsonReceiveMessageHandler {
     @Override
     public void handleMessage(SignalServiceEnvelope envelope, SignalServiceContent content, Throwable exception) {
         super.handleMessage(envelope, content, exception);
-
+        System.out.println(envelope);
         sendReceivedMessageToDbus(envelope, content, conn, objectPath, m);
     }
 }
