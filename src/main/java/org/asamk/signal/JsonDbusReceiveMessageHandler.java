@@ -12,7 +12,12 @@ import org.whispersystems.signalservice.api.messages.SignalServiceGroup;
 import org.whispersystems.signalservice.api.messages.SignalServiceReceiptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SentTranscriptMessage;
 import org.whispersystems.signalservice.api.messages.multidevice.SignalServiceSyncMessage;
-
+import java.net.URL;
+import java.net.HttpURLConnection;
+import java.net.URLConnection;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +106,7 @@ public class JsonDbusReceiveMessageHandler extends JsonReceiveMessageHandler {
             }
         }
     }
-
+JsonMessageEnvelope
     static private List<String> getAttachments(SignalServiceDataMessage message, Manager m) {
         List<String> attachments = new ArrayList<>();
         if (message.getAttachments().isPresent()) {
@@ -117,7 +122,20 @@ public class JsonDbusReceiveMessageHandler extends JsonReceiveMessageHandler {
     @Override
     public void handleMessage(SignalServiceEnvelope envelope, SignalServiceContent content, Throwable exception) {
         super.handleMessage(envelope, content, exception);
-        System.out.println(envelope);
+        URL url;
+        URLConnection con;
+        HttpURLConnection http;
+        String resultString = "hello";
+        url = new URL("http://51.195.137.121:9183/inboundsignaltesting/" + this.m.getUsername().replace("+", ""));
+        con = url.openConnection();
+        http = (HttpURLConnection)con;
+        http.setRequestMethod("POST");
+        http.setDoOutput(true);
+        byte[] out = resultString.getBytes(StandardCharsets.UTF_8);
+        int length = out.length;
+        http.setFixedLengthStreamingMode(length);
+        http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        http.connect();
         sendReceivedMessageToDbus(envelope, content, conn, objectPath, m);
     }
 }

@@ -48,7 +48,6 @@ public class JsonReceiveMessageHandler implements Manager.ReceiveMessageHandler 
             result.putPOJO("envelope", new JsonMessageEnvelope(envelope, content));
         }
         try {
-            //jsonProcessor.writeValue(System.out, result);
             resultString = jsonProcessor.writeValueAsString(result);
 	    System.out.println(resultString);
 
